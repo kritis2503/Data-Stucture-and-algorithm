@@ -148,12 +148,12 @@ public class intro {
         
         int ld=kAway02(node.left, data, k, ans);
         if(ld!=-1){
-            kdown(node, node.left, k, ans);
+            kdown(node, node.left, k-ld, ans);
             return ld+1;
         }
         int rd=kAway02(node.right, data, k, ans);
         if(rd!=-1){
-            kdown(node, node.right, k, ans);
+            kdown(node, node.right, k-rd, ans);
             return rd+1;
         }
         return -1;
