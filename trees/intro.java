@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class intro {
     public static class Node{
         int data;
@@ -66,16 +67,114 @@ public class intro {
             al.add(node.data);
         return res;
     }
+
+    public static ArrayList<Node> nodeToRoot2(Node node,int val){
+        if(node==null){
+            return new ArrayList<Node>();
+        }
+
+        if(node.data==val){
+            ArrayList<Node>al=new ArrayList<>();
+            al.add(node);
+            return al;
+        }
+        ArrayList<Node>la=nodeToRoot2(node.left, val);
+        if(la.size()!=0){
+            la.add(node);
+            return la;
+        }
+        ArrayList<Node>ra=nodeToRoot2(node.right, val);
+        if(ra.size()!=0){
+            ra.add(node);
+            return ra;
+        }
+        return new ArrayList<Node>();
+    }
+
+    public static Node lowestCommonAncestor(Node node,int p,int q){
+        if(node==null)
+            return null;
+        ArrayList<Node>pAl=nodeToRoot2(node, p);
+        ArrayList<Node>qAl=nodeToRoot2(node, q);
+        int c1=pAl.size()-1;
+        int c2=qAl.size()-1;
+
+        Node lca=null;
+        while(c1>=0 && c2>=0){
+            if(pAl.get(c1).data!=qAl.get(c2).data){
+                break;
+            }
+            lca=pAl.get(c1);
+            c1--;
+            c2--;
+        }
+        return lca;
+    }
+
+    public static void kdown(Node node, Node block,int k,ArrayList<Integer>ans){
+        if(node==null || block==node || k<0)
+            return;
+
+        if(k==0){
+            ans.add(node.data);
+            return;
+        }
+
+        kdown(node.left, block, k-1, ans);
+        kdown(node.right, block, k-1, ans);
+        return;
+    }
+
+    public static void kAway01(Node node,int data,int k){
+        if(node==null)
+            return ;
+        ArrayList<Node>al=nodeToRoot2(node, data);
+        Node block=null;
+        ArrayList<Integer>ans=new ArrayList<>();
+        for(int i=0;i<al.size();i++){
+            kdown(al.get(i), block, k-i, ans);
+            block=al.get(i);
+        }
+        System.out.println(ans);
+    }
+    public static int kAway02(Node node,int data,int k,ArrayList<Integer>ans){
+        if(node==null)
+            return -1;
+        
+        if(node.data==data){
+            kdown(node, null, k, ans);
+            return 1;
+        }
+        
+        int ld=kAway02(node.left, data, k, ans);
+        if(ld!=-1){
+            kdown(node, node.left, k, ans);
+            return ld+1;
+        }
+        int rd=kAway02(node.right, data, k, ans);
+        if(rd!=-1){
+            kdown(node, node.right, k, ans);
+            return rd+1;
+        }
+        return -1;
+    }
+
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
-        //display(node);
+        // display(node);
         //System.out.println(size(node));
         //System.out.println(height(node));
         // System.out.println(find(node, 87));
         // System.out.println(find(node, 110));
         ArrayList<Integer>al=new ArrayList<>();
-        boolean ans=nodeToRoot(node, 90, al);
+        //boolean ans=nodeToRoot(node, 90, al);
+        //al=nodeToRoot2(node, 90);
+        //System.out.println(al);
+        // Node lca=lowestCommonAncestor(node, 100, 80);
+        // System.out.println(lca.data);
+        kAway01(node, 90, 6);
+        int a=kAway02(node, 90, 6, al);
         System.out.println(al);
     }
     public static void main(String[] args) {
