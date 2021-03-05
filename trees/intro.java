@@ -125,6 +125,7 @@ public class intro {
         return;
     }
 
+    //time complexity O(2n)- every element iterated twice
     public static void kAway01(Node node,int data,int k){
         if(node==null)
             return ;
@@ -137,6 +138,7 @@ public class intro {
         }
         System.out.println(ans);
     }
+    //time complexity O(n)
     public static int kAway02(Node node,int data,int k,ArrayList<Integer>ans){
         if(node==null)
             return -1;
@@ -159,6 +161,41 @@ public class intro {
         return -1;
     }
 
+    public static int diameter01(Node node){
+        if(node==null)
+            return 0;
+        
+        int lh=height(node.left);
+        int rh=height(node.right);
+
+        int ld=diameter01(node.left);
+        int rd=diameter01(node.right);
+
+        return Math.max(Math.max(ld, rd), lh+rh+2);
+    }
+
+    public static int[] diameter02(Node node){
+        if(node==null)
+            return new int []{0,-1};
+        
+        int []l=diameter02(node.left);
+        int []r=diameter02(node.right);
+
+        int dia=Math.max(Math.max(l[0], r[0]), l[1]+r[1]+2);
+        int h=Math.max(l[1], r[1])+1;
+
+        return new int []{dia,h};
+    }
+
+    public static int diameter03(Node node,int diaAns){
+        if(node==null)
+            return -1;
+        
+        int lh=diameter03(node.left, diaAns);
+        int rh=diameter03(node.right, diaAns);
+        diaAns=Math.max(lh+rh+2, diaAns);
+        return Math.max(lh, rh)+1;
+    }
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
@@ -167,15 +204,21 @@ public class intro {
         //System.out.println(height(node));
         // System.out.println(find(node, 87));
         // System.out.println(find(node, 110));
-        ArrayList<Integer>al=new ArrayList<>();
+        // ArrayList<Integer>al=new ArrayList<>();
         //boolean ans=nodeToRoot(node, 90, al);
         //al=nodeToRoot2(node, 90);
         //System.out.println(al);
         // Node lca=lowestCommonAncestor(node, 100, 80);
         // System.out.println(lca.data);
-        kAway01(node, 90, 6);
-        int a=kAway02(node, 90, 6, al);
-        System.out.println(al);
+        // kAway01(node, 90, 6);
+        // int a=kAway02(node, 90, 6, al);
+        // System.out.println(al);
+        // System.out.println(diameter01(node));
+        // int []ans=diameter02(node);
+        // System.out.println(ans[0]);
+        int dia=0;
+        int ans=diameter03(node, dia);
+        System.out.println(dia);
     }
     public static void main(String[] args) {
         solve();
