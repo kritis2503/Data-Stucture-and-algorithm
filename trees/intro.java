@@ -254,15 +254,75 @@ public class intro {
             
         }
     }
+
+    public static ArrayList<Integer> leftView(Node node){
+        LinkedList<Node>que=new LinkedList<>();
+        ArrayList<Integer>al=new ArrayList<>();
+        que.addLast(node);
+       
+        while(que.size()!=0){
+            int size=que.size();
+            boolean save=true;
+            while(size-->0){
+                Node vtx=que.removeFirst();
+                if(save){
+                    al.add(vtx.data);
+                    save=false;
+                }
+                if(vtx.left!=null)
+                    que.addLast(vtx.left);
+                if(vtx.right!=null)
+                    que.addLast(vtx.right);
+            }
+        }
+        return al;
+    }
+    public static void leftViewRec(Node node){
+        int level=height(node);
+        System.out.println(level);
+        boolean []vis=new boolean [level+1];
+        for(int i=0;i<level;i++)
+            vis[i]=false;
+        //leftViewHelper(node,vis,1);
+    }
+    public static void leftViewHelper(Node node,boolean[]vis,int level){
+        if(node==null)
+            return;
+        if(!vis[level])
+            System.out.println(node.data);
+        vis[level]=true;
+        leftViewHelper(node.left, vis, level+1);
+        leftViewHelper(node.right, vis, level+1);
+    }
+
+    public static ArrayList<Integer> rightView(Node node){
+        LinkedList<Node>que=new LinkedList<>();
+        ArrayList<Integer>al=new ArrayList<>();
+        que.addLast(node);
+       int prev=0;
+        while(que.size()!=0){
+            int size=que.size();
+            while(size-->0){
+                Node vtx=que.removeFirst();
+                if(vtx.left!=null)
+                    que.addLast(vtx.left);
+                if(vtx.right!=null)
+                    que.addLast(vtx.right);
+                prev=vtx.data;
+            }
+            al.add(prev);
+        }
+        return al;
+    }
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
-        // display(node);
+        display(node);
         //System.out.println(size(node));
         //System.out.println(height(node));
         // System.out.println(find(node, 87));
         // System.out.println(find(node, 110));
-        // ArrayList<Integer>al=new ArrayList<>();
+        //ArrayList<Integer>al=new ArrayList<>();
         //boolean ans=nodeToRoot(node, 90, al);
         //al=nodeToRoot2(node, 90);
         //System.out.println(al);
@@ -279,7 +339,10 @@ public class intro {
         // System.out.println(dia);
         // BFS01(node);
         // BFS02(node);
-        BFS03(node);
+        // BFS03(node);
+        System.out.println(leftView(node));
+        // System.out.println(rightView(node));
+        leftViewRec(node);
     }
     public static void main(String[] args) {
         solve();
