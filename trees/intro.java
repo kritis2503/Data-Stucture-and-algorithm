@@ -196,6 +196,64 @@ public class intro {
         diaAns=Math.max(lh+rh+2, diaAns);
         return Math.max(lh, rh)+1;
     }
+
+    //LEVEL ORDER-----------------------------------------------------------------------------
+    public static void BFS01(Node node){
+        LinkedList<Node>que=new LinkedList<>();
+        que.addLast(node);
+
+        while(que.size()!=0){
+            Node vtx=que.removeFirst();
+            System.out.println(vtx.data);
+            if(vtx.left!=null)
+                que.addLast(vtx.left);
+            if(vtx.right!=null)
+                que.addLast(vtx.right);
+        }
+    }
+
+    public static void BFS02(Node node){
+        LinkedList<Node>que=new LinkedList<>();
+        que.addLast(node);
+        que.addLast(null);
+
+        while(que.size()!=1){
+            Node vtx=que.removeFirst();
+            System.out.print(vtx.data+" ");
+
+            if(vtx.left!=null)
+                que.addLast(vtx.left);
+            if(vtx.right!=null)
+                que.addLast(vtx.right);
+            
+            if(que.getFirst()==null){
+                que.removeFirst();
+                System.out.println();
+                que.addLast(null);
+            }
+        }
+    }
+
+    public static void BFS03(Node node){
+        LinkedList<Node>que=new LinkedList<>();
+        que.addLast(node);
+        int level=1;
+        while(que.size()!=0){
+            int size=que.size();
+            System.out.print(level+"->");
+            while(size-->0){
+                Node vtx=que.removeFirst();
+                System.out.print(vtx.data+" ");
+                if(vtx.left!=null)
+                    que.addLast(vtx.left);
+                if(vtx.right!=null)
+                    que.addLast(vtx.right);
+            }
+            System.out.println();
+            level++;
+            
+        }
+    }
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
@@ -216,9 +274,12 @@ public class intro {
         // System.out.println(diameter01(node));
         // int []ans=diameter02(node);
         // System.out.println(ans[0]);
-        int dia=0;
-        int ans=diameter03(node, dia);
-        System.out.println(dia);
+        // int dia=0;
+        // int ans=diameter03(node, dia);
+        // System.out.println(dia);
+        // BFS01(node);
+        // BFS02(node);
+        BFS03(node);
     }
     public static void main(String[] args) {
         solve();
