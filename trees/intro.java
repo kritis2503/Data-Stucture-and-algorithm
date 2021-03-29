@@ -280,10 +280,10 @@ public class intro {
     public static void leftViewRec(Node node){
         int level=height(node);
         System.out.println(level);
-        boolean []vis=new boolean [level+1];
+        boolean []vis=new boolean [level+2];
         for(int i=0;i<level;i++)
             vis[i]=false;
-        //leftViewHelper(node,vis,1);
+        leftViewHelper(node,vis,1);
     }
     public static void leftViewHelper(Node node,boolean[]vis,int level){
         if(node==null)
@@ -314,10 +314,26 @@ public class intro {
         }
         return al;
     }
+
+    public static void rightViewRec(Node node){
+        int level=height(node);
+        //System.out.println(level);
+        int []vis=new int [level+2];
+        rightViewHelper(node,vis,1);
+        for(int i=1;i<vis.length;i++)
+            System.out.println(vis[i]);
+    }
+    public static void rightViewHelper(Node node,int[]vis,int level){
+        if(node==null)
+            return;
+        vis[level]=node.data;
+        rightViewHelper(node.left, vis, level+1);
+        rightViewHelper(node.right, vis, level+1);
+    }
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
-        display(node);
+        // display(node);
         //System.out.println(size(node));
         //System.out.println(height(node));
         // System.out.println(find(node, 87));
@@ -340,9 +356,10 @@ public class intro {
         // BFS01(node);
         // BFS02(node);
         // BFS03(node);
-        System.out.println(leftView(node));
-        // System.out.println(rightView(node));
-        leftViewRec(node);
+        // System.out.println(leftView(node));
+        System.out.println(rightView(node));
+        //leftViewRec(node);
+        rightViewRec(node);
     }
     public static void main(String[] args) {
         solve();
