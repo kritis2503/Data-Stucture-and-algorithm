@@ -255,6 +255,15 @@ public class intro {
         }
     }
 
+    public static void width(Node node,int level,int []maxMin){
+        if(node==null)
+            return;
+        maxMin[0]=Math.max(maxMin[0], level);
+        maxMin[1]=Math.min(maxMin[1], level);
+
+        width(node.left, level-1, maxMin);
+        width(node.right, level+1, maxMin);
+    }
     public static ArrayList<Integer> leftView(Node node){
         LinkedList<Node>que=new LinkedList<>();
         ArrayList<Integer>al=new ArrayList<>();
@@ -330,6 +339,108 @@ public class intro {
         rightViewHelper(node.left, vis, level+1);
         rightViewHelper(node.right, vis, level+1);
     }
+      
+    public static class pair{
+
+        Node node = null;
+        int val = 0;
+
+        pair(Node node,int val){
+            this.node = node;
+            this.val = val;
+        }
+    }
+
+    public static void verticalView(Node node){
+        int[] maxMin = new int[2];
+        width(node,0,maxMin);
+
+        int n = maxMin[0] - maxMin[1] + 1;
+        ArrayList<Integer>[] ans = new ArrayList[n];
+        for(int i=0;i<n;i++) ans[i] = new ArrayList<>();
+
+        LinkedList<pair> que = new LinkedList<>();
+        que.addLast(new pair(node,-maxMin[1]));
+
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                pair vtx = que.removeFirst();
+
+                ans[vtx.val].add(vtx.node.data);
+                if(vtx.node.left!=null) que.addLast(new pair(vtx.node.left,vtx.val - 1));
+                if(vtx.node.right!=null) que.addLast(new pair(vtx.node.right,vtx.val + 1));
+            }
+        }
+        for(ArrayList <Integer>a:ans)
+            System.out.println(a);
+    }
+
+    public static void verticalSum(Node node){
+        int []maxMin=new int [2];
+        width(node, 0, maxMin);
+        int w=maxMin[0]-maxMin[1]+1;
+        int []s=new int [w];
+
+        LinkedList<pair>que=new LinkedList<>();
+        que.addLast(new pair(node,-maxMin[1]));
+
+        while(que.size()!=0){
+            int size=que.size();
+            while(size-->0){
+                pair vtx=que.removeFirst();
+                s[vtx.val]+=vtx.node.data;
+                if(vtx.node.left!=null)que.addLast(new pair(vtx.node.left, vtx.val-1));
+                if(vtx.node.right!=null)que.addLast(new pair(vtx.node.right,vtx.val+1));
+            }
+        }
+        for(int a:s)System.out.println(a);
+    }
+    public static void TopView(Node node){
+        int[] maxMin = new int[2];
+        width(node,0,maxMin);
+        int n = maxMin[0] - maxMin[1] + 1;
+        // ArrayList<Integer>[] ans = new ArrayList[n];
+        int []vis=new int [n];
+        for(int i=0;i<n;i++)vis[i]=-1;
+        // for(int i=0;i<n;i++) ans[i] = new ArrayList<>();
+        LinkedList<pair> que = new LinkedList<>();
+        que.addLast(new pair(node,-maxMin[1]));
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                pair vtx = que.removeFirst();
+                if(vis[vtx.val]==-1)vis[vtx.val]=vtx.node.data;
+                if(vtx.node.left!=null) que.addLast(new pair(vtx.node.left,vtx.val - 1));
+                if(vtx.node.right!=null) que.addLast(new pair(vtx.node.right,vtx.val + 1));
+            }
+        }
+        for(int a:vis)
+            System.out.println(a);
+    }
+
+    public static void bottomView(Node node){
+        int[] maxMin = new int[2];
+        width(node,0,maxMin);
+        int n = maxMin[0] - maxMin[1] + 1;
+        // ArrayList<Integer>[] ans = new ArrayList[n];
+        int []vis=new int [n];
+        for(int i=0;i<n;i++)vis[i]=-1;
+        // for(int i=0;i<n;i++) ans[i] = new ArrayList<>();
+        LinkedList<pair> que = new LinkedList<>();
+        que.addLast(new pair(node,-maxMin[1]));
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                pair vtx = que.removeFirst();
+                vis[vtx.val]=vtx.node.data;
+                if(vtx.node.left!=null) que.addLast(new pair(vtx.node.left,vtx.val - 1));
+                if(vtx.node.right!=null) que.addLast(new pair(vtx.node.right,vtx.val + 1));
+            }
+        }
+        for(int a:vis)
+            System.out.println(a);
+    }
     public static void solve(){
         int []arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node node=construct(arr);
@@ -357,9 +468,16 @@ public class intro {
         // BFS02(node);
         // BFS03(node);
         // System.out.println(leftView(node));
-        System.out.println(rightView(node));
+        // System.out.println(rightView(node));
         //leftViewRec(node);
-        rightViewRec(node);
+        // rightViewRec(node);
+        // int []ans=new int [2];
+        // width(node, 0, ans);
+        // System.out.println(Math.abs(ans[0]-ans[1])+1);
+        verticalView(node);
+        // TopView(node);
+        // bottomView(node);
+        verticalSum(node);
     }
     public static void main(String[] args) {
         solve();
