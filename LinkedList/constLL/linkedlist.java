@@ -151,6 +151,7 @@ public class linkedlist{
                 numberOfNode--;
                 return remove;
             }
+            return null;
         }
         
         public int removeAt(int idx) throws Exception{
