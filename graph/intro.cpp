@@ -101,12 +101,12 @@ void constructGraph(){
 }
 
 int main(){
-    
     constructGraph();
     display();
-    vector<bool> vis[N];
-    cout<<hasPath(0,6,vis)<<endl;
-    vector<bool> vis1[N];
+    vector<bool> vis(N);
+    bool a=hasPath(0,3,vis);
+    cout<<a<<endl;
+    vector<bool> vis1(N);
     cout<<printAllpath(0,6,vis1,"");
     return 0;
 }
