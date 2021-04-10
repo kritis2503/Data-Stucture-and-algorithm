@@ -65,7 +65,7 @@ bool hasPath(int src,int dest,vector<bool> &vis){
     bool res=false;
 
     for(Edge e:graph[src]){
-        if(!vis[e]){
+        if(!vis[e.v]){
             res=res||hasPath(e.v,dest,vis);
         }
     }
@@ -78,7 +78,7 @@ int printAllpath(int src,int dest,vector<bool> &vis,string psf){
     }
     vis[src]=true;
     int ans=0;
-    for(Edge e:graph[u]){
+    for(Edge e:graph[src]){
         ans+=printAllpath(e.v,dest,vis,psf+to_string(src)+"");
     }
     vis[src]=false;
@@ -104,9 +104,9 @@ int main(){
     
     constructGraph();
     display();
-    bool vis[N];
+    vector<bool> vis[N];
     cout<<hasPath(0,6,vis)<<endl;
-    bool vis1[N];
+    vector<bool> vis1[N];
     cout<<printAllpath(0,6,vis1,"");
     return 0;
 }
