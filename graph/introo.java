@@ -127,6 +127,47 @@ public class introo{
         return myAns;
     }
 
+    public static int hamlitonPath(int osrc,int src,int noofEdges,boolean[]vis,String psf){
+        if(noofEdges==1){
+            System.out.println(psf+" "+src);
+            return 1;
+        }
+        vis[src]=true;
+        int count=0;
+        for(Edge e:graph[src]){
+            if(!vis[e.v])
+                count+=hamlitonPath(osrc, e.v, noofEdges-1, vis, psf+" "+src+"");
+        }
+        vis[src]=false;
+        return count;
+    }
+    public static int gcc(){
+        ArrayList<ArrayList<Integer>>ans=new ArrayList<>();
+        boolean[]vis=new boolean [N];
+        int component=0;
+        for(int i=0;i<N;i++){
+            if(!vis[i]){
+            ArrayList<Integer>al=new ArrayList<>();
+            dfs(i, vis, al);
+            ans.add(al);
+            component++;
+        }
+    }
+        for(ArrayList<Integer>al:ans)
+            System.out.println(al);
+        System.out.println(vis[6]);
+        return component;
+    }
+    public static void dfs(int src,boolean []vis,ArrayList<Integer>ele){
+        vis[src]=true;
+        for(Edge e:graph[src]){
+            if(!vis[e.v]){
+                dfs(e.v, vis, ele);
+            }
+        }
+        ele.add(src);
+    }
+
     public static void solve(){
         constructGraph();
         //isplay();
@@ -134,8 +175,10 @@ public class introo{
         //System.out.println(hasPath(0, 6, vis));
         // vis=new boolean [N];
         // System.out.println(printAllpath(0, 3, vis,""));
-        pair ans=heavyPath(0, 6, vis);
-        System.out.println(ans.str);
+        // pair ans=heavyPath(0, 6, vis);
+        // System.out.println(ans.str);
+        // System.out.println(hamlitonPath(0, 0, N, vis, ""));
+        System.out.println(gcc());
     }
     public static void main(String[] args) {
         solve();
