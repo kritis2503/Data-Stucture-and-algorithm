@@ -283,11 +283,6 @@ public class introo{
         }
 
     }
-//================TOPOLOGICAL SORT====================
-//it is used to tell the order in a directed graph where one node is dependent upon other
-//it is both in dfs and bfs
-//the starting point in topological sort doesn't matter
-//algo for dfs 1-mark 2-for all the unvisited neighbours call dfs 3-store the node in a vector/arraylist/stack
     
     public static void solve(){
         constructGraph();
