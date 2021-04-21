@@ -167,18 +167,142 @@ public class introo{
         }
         ele.add(src);
     }
+    //BFS-------------------------------------------------------------------------------------------------
+    //1-It is used to get the shortest path
+    //2-used to detect cycle. it gives just yes and no answer
+    public static void BFS_cycle(int src){
+        LinkedList<Integer>que=new LinkedList<>();
+        que.addLast(src);
 
+        int dest=6;
+        int atLevel=-1;
+
+        boolean isCycle=false;
+        int level=0;
+        boolean []vis=new boolean [graph.length];
+
+        while(que.size()!=0){
+            int size=que.size();
+            System.out.print("level "+level+"->");
+
+            while(size-->0){
+                int vtx=que.removeFirst();
+                System.out.print(vtx+" ");
+
+                if(vis[vtx]){
+                    isCycle=true;
+                    continue;
+                }
+                vis[vtx]=true;
+                if(vtx==dest){
+                    atLevel=level;
+                }
+                for(Edge e:graph[vtx]){
+                    if(!vis[e.v])
+                        que.addLast(e.v);
+                }
+            }
+            System.out.println();
+            level++;
+        }
+        System.out.println(isCycle+" at level "+atLevel);
+    }
+
+    public static void BFS_shortestpath(int src){
+        LinkedList<Integer>que=new LinkedList<>();
+        que.addLast(src);
+
+        int dest=6;
+        int atLevel=-1;
+        
+        int level=0;
+        boolean []vis=new boolean [graph.length];
+        while(que.size()!=0){
+            int size=que.size();
+            System.out.print("level "+level+"->");
+            while(size-->0){
+                int vtx=que.removeFirst();
+                System.out.print(vtx+" ");
+                
+                for(Edge e:graph[vtx]){
+                    if(!vis[e.v]){
+                        vis[vtx]=true;
+                        que.addLast(e.v);
+                    }
+                    if(vtx==dest){
+                        atLevel=level+1;
+                    }
+                }
+            }
+            System.out.println();
+            level++;
+        }
+        System.out.println("dest at "+atLevel);
+    }
+
+    public static void BFS_printshortestpath(int src){
+        LinkedList<Integer>que=new LinkedList<>();
+        que.addLast(src);
+        int dest=6;
+        int atLevel=-1;
+        
+        int level=0;
+        boolean []vis=new boolean [graph.length];
+        int []par=new int [graph.length];
+        for(int i=0;i<par.length;i++)
+            par[i]=-1;
+
+        while(que.size()!=0){
+            int size=que.size();
+            System.out.print("level "+level+"->");
+            while(size-->0){
+                int vtx=que.removeFirst();
+                System.out.print(vtx+" ");
+                
+                for(Edge e:graph[vtx]){
+
+                    if(!vis[e.v]){
+                        vis[vtx]=true;
+                        que.addLast(e.v);
+                        par[e.v]=vtx;
+                    }
+
+                    if(e.v==dest){
+                        atLevel=level+1;
+                    }
+                }
+            }
+            System.out.println();
+            level++;
+        }
+        System.out.println("dest at "+atLevel);
+        int idx=atLevel;
+        while(idx!=-1){
+            System.out.print(idx+" ");
+            idx=par[idx];
+        }
+
+    }
+//================TOPOLOGICAL SORT====================
+//it is used to tell the order in a directed graph where one node is dependent upon other
+//it is both in dfs and bfs
+//the starting point in topological sort doesn't matter
+//algo for dfs 1-mark 2-for all the unvisited neighbours call dfs 3-store the node in a vector/arraylist/stack
+    
     public static void solve(){
         constructGraph();
-        //isplay();
-        boolean []vis=new boolean [N];
+        //display();
+        //boolean []vis=new boolean [N];
         //System.out.println(hasPath(0, 6, vis));
         // vis=new boolean [N];
         // System.out.println(printAllpath(0, 3, vis,""));
         // pair ans=heavyPath(0, 6, vis);
         // System.out.println(ans.str);
         // System.out.println(hamlitonPath(0, 0, N, vis, ""));
-        System.out.println(gcc());
+        // System.out.println(gcc());
+       // BFS_cycle(0);
+        // BFS_shortestpath(0);
+        BFS_printshortestpath(0);
     }
     public static void main(String[] args) {
         solve();
