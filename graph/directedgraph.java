@@ -106,12 +106,43 @@ public class directedgraph {
         }
         System.out.println(ans);
     }
+    public static void isCycle_dfs(){
+        int []vis=new int [N];
+        for(int i=0;i<N;i++)
+            vis[i]=-1;
+        ArrayList<Integer>list=new ArrayList<>();
+        boolean res=false;
+
+        for(int i=0;i<N;i++){
+            if(vis[i]==-1)
+                res=res||cycle_dfsTopo(i, vis, list);
+        }
+        if(res)
+            list.clear();
+        System.out.println(list);
+        System.out.println(res);
+
+    }
+    public static boolean cycle_dfsTopo(int src,int []vis,ArrayList<Integer>list){
+        vis[src]=0;
+        boolean res=false;
+        for(Edge e:graph[src]){
+            if(vis[e.v]==-1)
+                res=res||cycle_dfsTopo(e.v, vis, list);
+            else if(vis[e.v]==0)
+                return true;
+        }
+        vis[src]=1;
+        list.add(src);
+        return res;
+    }
     public static void main(String[] args) {
         constructGraph();
-        //display();
-         topoDFS();
-         System.out.println();
-        kahnsAlgo();
+        // display();
+        //  topoDFS();
+        //  System.out.println();
+        // kahnsAlgo();
+        isCycle_dfs();
     }
     
 }
