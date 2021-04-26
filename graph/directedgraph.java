@@ -136,6 +136,62 @@ public class directedgraph {
         list.add(src);
         return res;
     }
+    //--------------------------------------KOSARAJU'S ALGO---------------------------------------------
+    //Using this algo, we find strongly connected component.
+    //A directed graph is strongly connected if there is a path between all pairs of vertices.
+    //A strongly connected component (SCC) of a directed graph is a maximal strongly connected subgraph.
+    //a stronglt connected component means if each vertex has path to every other vertex.
+    //this thing is only possible if the component all of them are in a cycle.
+    //pseudo code:
+    //step1:find the topological order using DFS.
+    //step2:find the inverse of graph, ie change the direction of directed graph.
+    //Step3:following the topo order found in step1 FROM BACK , using DFS apply toposort again and save the elements
+    //these elements are a SCC.
+    //The basic logic about it ,scc are usually a cycle ans if we invert the cycle, it still remains cycle(conditions apply)
+    //no matter what. those elements which aren't cycle are not part of that particular componennt
+    //Note:This algo is used to change DIRECTED CYCLIC GRAPH TO DIRECTED ACYCLIC GRAPH.
+    //------------------------------------------------------------------------------------------------------
+    public static void kosaraju(){
+        //step-1
+        boolean []vis=new boolean [N];
+        ArrayList<Integer>topo=new ArrayList<>();
+
+        for(int i=0;i<N;i++){
+            if(!vis[i])
+                topo_DFS_helper(i, vis, topo);
+        }
+        //end of step-1
+        //step-2 graph inverse
+        ArrayList<Edge>[]ngraph=new ArrayList[N];
+        for(int i=0;i<N;i++){
+            ngraph[i]=new ArrayList<>();
+        }
+        for(int i=0;i<N;i++){
+            for(Edge e:graph[i]){
+                graph[e.v].add(new Edge(i, 0));
+            }
+        }
+        //end of step-2
+        //step-3 
+        vis=new boolean [N];
+        ArrayList<Integer>al=new ArrayList<>();
+        for(int i=topo.size()-1;i>=0;i--){
+            if(!vis[i]){
+                al=new ArrayList<>();
+                topo_SCC(ngraph, i, vis,al);
+                System.out.println(al);
+            }
+        }
+    }
+    public static void topo_SCC(ArrayList<Edge>[]ngraph,int src,boolean []vis,ArrayList<Integer>list){
+        vis[src]=true;
+        for(Edge e:ngraph[src]){
+            if(!vis[e.v]){
+                topo_SCC(ngraph,e.v, vis, list);
+            }
+        }
+        list.add(src);
+    }
     public static void main(String[] args) {
         constructGraph();
         // display();
