@@ -105,6 +105,7 @@ public class directedgraph {
             level++;
         }
         System.out.println(ans);
+        System.out.println(level);
     }
     public static void isCycle_dfs(){
         int []vis=new int [N];
