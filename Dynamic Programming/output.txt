@@ -1,0 +1,11 @@
+ A B C D
+ A B CD
+ A BC D
+ A BD C
+ AB C D
+ AB CD
+ AC B D
+ AC BD
+ AD B C
+ AD BC
+10
