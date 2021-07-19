@@ -1,6 +1,5 @@
 import java.util.*;
 
-import javax.sound.midi.SysexMessage;
 
 public class intro{
 //Dynamic Programming is a way to save time and get results faster. it is done by saving the previous 
@@ -24,12 +23,18 @@ public class intro{
         for(int []a:arr)
             print1D(a);
     }
+    //FIBONACCI SERIES==========================================================
     public static int fib_m1(int n,int []qb){
         if(n<=1)
             return n;
         if(qb[n]!=0)return qb[n];
         return qb[n]=(fib_m1(n-1, qb)+ fib_m1(n-2, qb));
     }
+    //******************************************************************************
+
+
+
+    //GRID==========================================================================
     public static int grid_m1(int sr,int sc,int dr,int dc,int [][]qb){
         if(sr==dr && sc==dc)
             return 1;
@@ -109,6 +114,12 @@ public class intro{
         // System.out.println(grid_t2jump(0, 0, n-1, m-1, qb));
         print2D(qb);
     }
+    //*******************************************************************************
+
+
+
+
+    //BOARD PATH========================================================================
     public static int boardpath_01m(int si,int ei,int []qb){
         if(si==ei)
             return 1;
@@ -157,6 +168,12 @@ public class intro{
         // print1D(dp);
         System.out.println(boardpath_02opti(1, 100));
     }
+    //*********************************************************************
+
+
+
+
+    //CLIMB STAIRS=========================================================
     public static int climbStairs_m1(int n,int []dp){
         if(n<=1)
             return dp[n]=1;
@@ -209,6 +226,12 @@ public class intro{
         // System.out.println(climbStairs_t1(n, dp));
         print1D(dp);
     }
+    //*****************************************************************************
+
+
+
+
+    //FRIEND PAIRING================================================================
     static long mod = (int) 1e9 + 7;
     public static long friendPairing_m1(int n,long[]dp){
         if(n<=1)
@@ -250,7 +273,12 @@ public class intro{
         //     System.out.print(ele+" ");
         System.out.println(printfriendPairing("ABCD", ""));
     }
+    //*************************************************************************
 
+
+
+
+    //GOLDMINE=======================================================================
     public static int goldmine_m1(int r,int c,int [][]mat,int [][]dp,int [][]dir){
         if(c==mat[0].length-1){
             return dp[r][c]=mat[r][c];
@@ -290,26 +318,146 @@ public class intro{
         for (int i = 0; i < mat.length; i++) {
             maxGold = Math.max(maxGold, dp[i][0]);
         }
+        print2D(dp);
         return maxGold;
+
     }
     public static void goldMine() {
         int[][] mat = { { 1, 3, 1, 5 }, { 2, 2, 4, 1 }, { 5, 0, 2, 3 }, { 0, 6, 1, 2 } };
 
-        int[][] dp = new int[mat.length][mat[0].length];
-        for (int[] d : dp)
-            Arrays.fill(d, -1);
+
+        // int[][] dp = new int[mat.length][mat[0].length];
+        // for (int[] d : dp)
+        //     Arrays.fill(d, -1);
 
         int[][] dir = { { -1, 1 }, { 0, 1 }, { 1, 1 } };
 
-        int maxGold = 0;
-        for (int i = 0; i < mat.length; i++) {
-            maxGold = Math.max(maxGold, goldmine_m1(i, 0, mat, dp, dir));
-        }
+        // int maxGold = 0;
+        // for (int i = 0; i < mat.length; i++) {
+        //     maxGold = Math.max(maxGold, goldmine_m1(i, 0, mat, dp, dir));
+        // }
 
         System.out.println(goldmine_t1(mat, dir));
-        print2D(dp);
+
+        // System.out.println(goldmine_t1(mat, dir));
+        // print2D(dp);
         // System.out.println(maxGold);
     }
+    //********************************************************************************
+    
+
+
+
+
+
+    //NUMDECODING=========================================================================
+    //Leetcode 91
+    public static int numDecoding_m1(String s,int idx,int []dp){
+        if(idx==s.length())
+            return dp[idx]=1;
+            
+        if(dp[idx]!=-1)
+            return dp[idx];
+
+        char ch1=s.charAt(idx);
+        if(ch1=='0')
+            return 0;
+
+        int count=0;
+        count+=numDecoding_m1(s, idx+1, dp);
+        if(idx<s.length()-1){
+            char ch2=s.charAt(idx+1);
+            int n=(ch1-'0')*10+(ch2-'0');
+            if(n<=26)
+                count+=numDecoding_m1(s, idx+2, dp);
+        }
+        return dp[idx]=count;
+    }
+    public static int numDecoding_t1(String s,int IDX,int []dp){
+        for(int idx=s.length();idx>=IDX;idx--){
+            if(idx==s.length()){
+                dp[idx]=1;
+                continue;
+            }
+            
+        char ch1=s.charAt(idx);
+        if(ch1=='0'){
+            dp[idx]=0;
+            continue;
+        }
+
+        int count=0;
+        count+=dp[idx+1];
+        if(idx<s.length()-1){
+            char ch2=s.charAt(idx+1);
+            int n=(ch1-'0')*10+(ch2-'0');
+            if(n<=26)
+                count+=dp[idx+2];
+        }
+        dp[idx]=count;
+    }
+        
+        return dp[IDX];
+    }
+    public static void numDecoding(String s){
+        int []dp=new int [s.length()+1];
+        Arrays.fill(dp, -1);
+        System.out.println(numDecoding_m1(s, 0, dp));
+        // System.out.println(numDecoding_t1(s, 0, dp));
+        print1D(dp);
+    }
+    //**************************************************************************
+
+
+
+
+
+
+    //NO OF WAYS=================================================================
+    //FAITH:
+    //there are two ways one number can group, either it can fly solo or in a team.
+    //once it comes in team it has choices amongst the already made teams to get into it.
+    //So, the calls.
+    public static int noOfways_m1(int n,int k,int [][]dp){
+        if(k==1)
+            return dp[n][k]=1;
+        if(n==k)
+            return dp[n][k]=1;
+        if(dp[n][k]!=0)
+            return dp[n][k];
+        int alone=noOfways_m1(n-1, k-1, dp);
+        int group=noOfways_m1(n-1, k, dp)*k;
+        return dp[n][k]=alone+group;
+    }
+    public static int noOfways_t1(int N,int K,int [][]dp){
+        for(int n=1;n<=N;n++){
+            for(int k=1;k<=K;k++){
+                if(k==1){
+                    dp[n][k]=1;
+                    continue;
+                }
+                if(n==k){
+                    dp[n][k]=1;
+                    continue;
+                }
+               
+            int alone=dp[n-1][k-1];
+            int group=dp[n-1][k]*k;
+            dp[n][k]=alone+group;
+            }
+        }
+        return dp[N][K];
+    }
+    public static void noOfways(int n,int k){
+        int [][]dp=new int [n+1][k+1];
+        // System.out.println(noOfways_m1(n, k, dp));
+        System.out.println(noOfways_t1(n, k, dp));
+        print2D(dp);
+    }
+    //**********************************************************************************
+
+
+
 
     public static void main(String[] args) {
         // int []qb=new int [11];
@@ -317,6 +465,9 @@ public class intro{
         // grid(5, 5);
         // boardpath(10);
         // climbStair(10); 
-        // friendPairing(20);      
+        // friendPairing(20);  
+        // numDecoding("212221");    
+        // noOfways(6, 3);
+        goldMine();
     }
 }
