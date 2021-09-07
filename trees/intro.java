@@ -251,7 +251,6 @@ public class intro {
             }
             System.out.println();
             level++;
-            
         }
     }
 
