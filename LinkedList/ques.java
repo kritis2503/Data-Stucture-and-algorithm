@@ -81,3 +81,48 @@ public static void unfold(ListNode head) {
     c1.next = nhead;
     return ;
   }
+
+  //MERGE TWO SORTED LINKEDLIST
+  public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    if(l1==null)
+        return l2;
+    if(l2==null)
+        return l1;
+    ListNode head=new ListNode(-1);
+    ListNode curr=head;
+    if(l1.val>l2.val){
+        curr.val=l2.val;
+        l2=l2.next;
+    }else{
+        curr.val=l1.val;
+        l1=l1.next;
+    }
+    while(l1!=null && l2!=null){
+        int data=-1;
+        if(l1.val<=l2.val){
+            data=l1.val;
+            l1=l1.next;
+        }
+        else{
+            data=l2.val;
+            l2=l2.next;
+        }
+           
+        ListNode dummy=new ListNode(data);
+        curr.next=dummy;
+        curr=curr.next;
+    }
+    while(l1!=null){
+        ListNode x=new ListNode(l1.val);
+        curr.next=x;
+        curr=x;
+        l1=l1.next;
+    }
+    while(l2!=null){
+        ListNode x=new ListNode(l2.val);
+        curr.next=x;
+        curr=x;
+        l2=l2.next;
+    }
+    return head;
+}

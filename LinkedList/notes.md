@@ -33,6 +33,14 @@ SPACE COMPLEXITY:O(1)
 Q5:UNFOLD LINKEDLIST
 APPROACH:we connect every alternate node in different linkedlist. and then reverse second linkedlist and 
     then attach them
+MATHEMATICAL APPROACH:NONE, JUST LOGIC
+TIME COMPLEXITY:O(N)
+SPACE COMPLEXITY:O(1)
+
+Q6:MERGE TWO SORTED LINKEDLIST
+APPROACH:We take one node as new head and then add the nodes consequently depending upon the value and 
+    return the final head node.
+MATHEMATICAL APPROACH:NONE, JUST LOGIC
 TIME COMPLEXITY:O(N)
 SPACE COMPLEXITY:O(1)
 
