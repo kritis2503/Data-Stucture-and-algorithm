@@ -162,7 +162,7 @@ public class string {
         if(dp[n][m]!=-1)
             return dp[n][m];
         if(s.charAt(n-1)==t.charAt(m-1))
-            return 1+lo,lkk,..dp(s, t, n-1, m-1, dp);
+            return 1+longestCommonSubsequence_m1(s, t, n-1, m-1, dp);
         return Math.max(longestCommonSubsequence_m1(s, t, n-1, m, dp),
                                  longestCommonSubsequence_m1(s, t, n, m-1, dp));
     }

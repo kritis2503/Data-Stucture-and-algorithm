@@ -169,7 +169,7 @@ public class directedgraph {
         }
         for(int i=0;i<N;i++){
             for(Edge e:graph[i]){
-                graph[e.v].add(new Edge(i, 0));
+                ngraph[e.v].add(new Edge(i, 0));
             }
         }
         //end of step-2
